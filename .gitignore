@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+db.sqlite3
+media/
+sent_emails/
+logs/
+charts/
+pokemon.json

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h2>Пользователи</h2>{% for item in users %}<article>{{ item.username }} <a href='{% url 'add_friend' item.pk %}'>Добавить</a></article>{% endfor %}{% endblock %}

@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h2>{{ profile_user.username }}</h2><p>{{ profile_user.email }}</p><p>{{ profile_user.phone }}</p><p>{{ profile_user.bio }}</p>{% if profile_user == user %}<a href='{% url 'edit_profile' %}'>Редактировать</a>{% endif %}{% endblock %}

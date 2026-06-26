@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h2>ORM-запросы</h2><p>Студенты без курсов: {{ students_without_courses|length }}</p><p>Преподаватели с несколькими курсами: {{ busy_teachers|length }}</p><p>Преподаватели без профиля: {{ teachers_without_profile|length }}</p>{% endblock %}

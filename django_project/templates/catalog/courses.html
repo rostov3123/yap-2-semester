@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h2>Курсы</h2>{% for course in courses %}<article><h3><a href='{% url 'course_detail' course.slug %}'>{{ course.title }}</a></h3><p>{{ course.level }}, {{ course.hours }} часов</p></article>{% empty %}<p>Курсов нет.</p>{% endfor %}{% endblock %}
