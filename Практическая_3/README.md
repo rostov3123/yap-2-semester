@@ -1,20 +1,9 @@
-# Практическая 3
+# Практическая 3 — Профили и друзья
 
-        Тема: доработка пользователей и элементы социальной сети.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/users/models.py; forms.py; views.py; middleware.py. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Войти как student. friend уже доступен; stranger закрыт. Добавить stranger, открыть профиль, удалить из друзей и повторить прямой переход. Подставить чужой id в /users/id/edit/: получить 403.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

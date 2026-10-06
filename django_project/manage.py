@@ -1,11 +1,7 @@
-#!/usr/bin/env python
+"""Командная строка управления Django."""
 import os
 import sys
-
-def main():
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "course_site.settings")
+if __name__ == '__main__':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'course_site.settings')
     from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)
-
-if __name__ == "__main__":
-    main()

@@ -1,37 +1,39 @@
-from pathlib import Path
-from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
+"""Консоль, ротация по размеру и ежедневная ротация с хранением 7 файлов."""
+import logging
 
-BASE_LOG_DIR = Path(__file__).resolve().parent.parent / "logs"
-BASE_LOG_DIR.mkdir(exist_ok=True)
+class CompleteFormatter(logging.Formatter):
+    """Дополнить записи taskName для совместимости Python 3.10–3.12."""
+    def format(self, record):
+        if not hasattr(record, 'taskName'):
+            record.taskName = None
+        return super().format(record)
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "formatters": {
-        "verbose": {
-            "format": "{asctime} {levelname} {name} {module} {process:d} {thread:d} {message}",
-            "style": "{",
-        }
-    },
-    "handlers": {
-        "console": {"class": "logging.StreamHandler", "formatter": "verbose"},
-        "rotating_file": {
-            "class": "logging.handlers.RotatingFileHandler",
-            "filename": BASE_LOG_DIR / "app.log",
-            "maxBytes": 1024 * 1024,
-            "backupCount": 3,
-            "formatter": "verbose",
+
+def make_logging(base_dir):
+    """Собрать dictConfig; пароль и содержимое форм никогда не логируются."""
+    folder = base_dir/'logs'
+    folder.mkdir(exist_ok=True)
+    # msg/args формируют message; exc_info/stack_info Formatter добавляет при наличии.
+    detail = ('{asctime} {levelname}({levelno}) {name} {message} '
+              '| {pathname}:{lineno} file={filename} module={module} func={funcName} '
+              'created={created} msecs={msecs} relative={relativeCreated} '
+              'process={process} processName={processName} thread={thread} '
+              'threadName={threadName} taskName={taskName} '
+              'msg={msg!r} args={args!r} exc_info={exc_info!r} '
+              'exc_text={exc_text!r} stack_info={stack_info!r}')
+    return {
+        'version': 1, 'disable_existing_loggers': False,
+        'formatters': {
+            'full': {'()': CompleteFormatter, 'format': detail, 'style': '{'},
+            'brief': {'format': '{levelname} {name}: {message}', 'style': '{'},
         },
-        "daily_file": {
-            "class": "logging.handlers.TimedRotatingFileHandler",
-            "filename": BASE_LOG_DIR / "daily.log",
-            "when": "D",
-            "backupCount": 7,
-            "formatter": "verbose",
+        'handlers': {
+            'console': {'class': 'logging.StreamHandler', 'formatter': 'brief', 'level': 'INFO'},
+            'size': {'class': 'logging.handlers.RotatingFileHandler', 'filename': folder/'application.log',
+                     'maxBytes': 1024*1024, 'backupCount': 3, 'encoding': 'utf-8', 'formatter': 'full'},
+            'daily': {'class': 'logging.handlers.TimedRotatingFileHandler', 'filename': folder/'daily.log',
+                      'when': 'midnight', 'interval': 1, 'backupCount': 7, 'encoding': 'utf-8', 'formatter': 'full'},
         },
-    },
-    "loggers": {
-        "users": {"handlers": ["console", "rotating_file", "daily_file"], "level": "INFO", "propagate": False},
-        "schedule": {"handlers": ["console", "rotating_file"], "level": "INFO", "propagate": False},
-    },
-}
+        'root': {'handlers': ['console', 'size', 'daily'], 'level': 'INFO'},
+        'loggers': {'django': {'handlers': ['console', 'size', 'daily'], 'level': 'INFO', 'propagate': False}},
+    }

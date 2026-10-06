@@ -1,12 +1,15 @@
+"""Кастомный пользователь задан до первой миграции auth."""
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models.functions import Lower
+from schedule.validators import validate_phone
 
 class User(AbstractUser):
-    email = models.EmailField(unique=True)
-    phone = models.CharField(max_length=20, blank=True)
-    avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
-    friends = models.ManyToManyField("self", symmetrical=True, blank=True)
-    bio = models.TextField(blank=True)
-
-    def __str__(self):
-        return self.username
+    email = models.EmailField('Email', unique=True)
+    phone = models.CharField('Телефон', max_length=12, validators=[validate_phone])
+    bio = models.TextField('О себе', max_length=1000, blank=True)
+    avatar = models.ImageField('Аватар', upload_to='avatars/%Y/%m/', blank=True)
+    friends = models.ManyToManyField('self', blank=True, symmetrical=True)
+    REQUIRED_FIELDS = ['email', 'phone']
+    class Meta:
+        constraints = [models.UniqueConstraint(Lower('email'), name='user_email_case_insensitive')]

@@ -1,0 +1,140 @@
+{
+  "source": "https://pokeapi.co/api/v2/",
+  "generated_at": "2026-10-06T08:04:09.496528+00:00",
+  "data": [
+    {
+      "id": 1,
+      "name": "bulbasaur",
+      "height": 7,
+      "weight": 69,
+      "hp": 45,
+      "attack": 49,
+      "defense": 49,
+      "speed": 45,
+      "types": [
+        "grass",
+        "poison"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "ivysaur",
+      "height": 10,
+      "weight": 130,
+      "hp": 60,
+      "attack": 62,
+      "defense": 63,
+      "speed": 60,
+      "types": [
+        "grass",
+        "poison"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "venusaur",
+      "height": 20,
+      "weight": 1000,
+      "hp": 80,
+      "attack": 82,
+      "defense": 83,
+      "speed": 80,
+      "types": [
+        "grass",
+        "poison"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "charmander",
+      "height": 6,
+      "weight": 85,
+      "hp": 39,
+      "attack": 52,
+      "defense": 43,
+      "speed": 65,
+      "types": [
+        "fire"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "charmeleon",
+      "height": 11,
+      "weight": 190,
+      "hp": 58,
+      "attack": 64,
+      "defense": 58,
+      "speed": 80,
+      "types": [
+        "fire"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "charizard",
+      "height": 17,
+      "weight": 905,
+      "hp": 78,
+      "attack": 84,
+      "defense": 78,
+      "speed": 100,
+      "types": [
+        "fire",
+        "flying"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "squirtle",
+      "height": 5,
+      "weight": 90,
+      "hp": 44,
+      "attack": 48,
+      "defense": 65,
+      "speed": 43,
+      "types": [
+        "water"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "wartortle",
+      "height": 10,
+      "weight": 225,
+      "hp": 59,
+      "attack": 63,
+      "defense": 80,
+      "speed": 58,
+      "types": [
+        "water"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "blastoise",
+      "height": 16,
+      "weight": 855,
+      "hp": 79,
+      "attack": 83,
+      "defense": 100,
+      "speed": 78,
+      "types": [
+        "water"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "caterpie",
+      "height": 3,
+      "weight": 29,
+      "hp": 45,
+      "attack": 30,
+      "defense": 35,
+      "speed": 45,
+      "types": [
+        "bug"
+      ]
+    }
+  ]
+}

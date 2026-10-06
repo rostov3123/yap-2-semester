@@ -1,20 +1,9 @@
-# Практическая 2
+# Практическая 2 — Модели и CRUD учебной системы
 
-        Тема: проектирование БД учебной системы и CRUD.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/schedule/models.py; forms.py; views.py; migrations/. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Войти как editor и пройти разделы «Преподаватели», «Учебные курсы», «Студенты». Создать только тестовую запись для демонстрации удаления. На /schedule/orm/ выбрать курс и порог N.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

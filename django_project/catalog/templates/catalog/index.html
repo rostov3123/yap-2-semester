@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block content %}
+<section class="hero"><div><p class="eyebrow">Учиться. Пробовать. Создавать.</p><h1>Следующий шаг<br>в программировании</h1><p>Курсы, преподаватели и учебное сообщество — в одном месте. Выбирайте направление и двигайтесь к новым знаниям.</p><a class="button" href="{% url 'catalog:courses' %}">Посмотреть курсы →</a></div>
+<div class="hero-art" aria-hidden="true"><div class="hero-note"><span>01 / ОСНОВА</span><strong>Понять язык</strong></div><div class="hero-note"><span>02 / ПРАКТИКА</span><strong>Написать первый проект</strong></div><div class="hero-note"><span>03 / РАЗВИТИЕ</span><strong>Учиться вместе</strong></div></div></section>
+<div class="section-head"><h2>Выберите направление</h2><a href="{% url 'catalog:authors' %}">Познакомиться с авторами →</a></div>
+{% include 'catalog/cards.html' %}
+{% endblock %}

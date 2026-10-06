@@ -1,1 +1,0 @@
-{% extends 'base.html' %}{% block content %}<h2>{{ author.name }}</h2><p>{{ author.bio }}</p><h3>Курсы</h3>{% for course in courses %}<p>{{ course.title }}</p>{% empty %}<p>Курсов нет.</p>{% endfor %}{% endblock %}

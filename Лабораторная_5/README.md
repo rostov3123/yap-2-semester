@@ -1,20 +1,9 @@
-# Лабораторная 5
+# Лабораторная 5 — Пользователи и восстановление пароля
 
-        Тема: пользователи в Django, регистрация и восстановление пароля.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/users/; ../django_project/templates/registration/; ../django_project/course_site/settings.py. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Войти и выйти; зарегистрировать новый аккаунт; запросить сброс пароля для демонстрационного пользователя и открыть файл письма. Пароль после ручной смены уже не равен исходному DemoStudy!2026.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

@@ -1,12 +1,11 @@
+"""Адреса профилей, регистрации и друзей."""
 from django.urls import path
 from . import views
-
+app_name = 'users'
 urlpatterns = [
-    path("register/", views.register, name="register"),
-    path("profile/", views.profile, name="profile"),
-    path("profile/edit/", views.edit_profile, name="edit_profile"),
-    path("profile/<str:username>/", views.profile, name="profile_detail"),
-    path("all/", views.user_list, name="user_list"),
-    path("friends/add/<int:pk>/", views.add_friend, name="add_friend"),
-    path("friends/remove/<int:pk>/", views.remove_friend, name="remove_friend"),
+    path('register/',views.register,name='register'), path('',views.user_list,name='list'),
+    path('<int:pk>/',views.profile,name='profile'), path('<int:pk>/edit/',views.edit_profile,name='edit'),
+    path('<int:pk>/avatar/',views.avatar,name='avatar'),
+    path('<int:pk>/add-friend/',views.add_friend,name='add_friend'),
+    path('<int:pk>/remove-friend/',views.remove_friend,name='remove_friend'),
 ]

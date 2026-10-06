@@ -1,36 +1,18 @@
-<!doctype html>
-<html lang="ru">
-<head>
-    <meta charset="utf-8">
-    <title>{% block title %}Каталог курсов{% endblock %}</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 1000px; margin: 0 auto; padding: 24px; line-height: 1.5; }
-        header, footer { background: #f2f5f8; padding: 16px; border-radius: 8px; }
-        nav a { margin-right: 12px; }
-        article { border-bottom: 1px solid #ddd; padding: 12px 0; }
-        form p { display: grid; max-width: 520px; }
-    </style>
-</head>
-<body>
-<header>
-    <h1>Каталог курсов</h1>
-    <nav>
-        <a href="{% url 'index' %}">Главная</a>
-        <a href="{% url 'courses' %}">Курсы</a>
-        <a href="{% url 'authors' %}">Авторы</a>
-        <a href="{% url 'teacher_list' %}">Преподаватели</a>
-        <a href="{% url 'course_list' %}">Schedule</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}">Профиль</a>
-            <a href="{% url 'password_change' %}">Сменить пароль</a>
-            <a href="{% url 'logout' %}">Выйти</a>
-        {% else %}
-            <a href="{% url 'login' %}">Войти</a>
-            <a href="{% url 'register' %}">Регистрация</a>
-        {% endif %}
-    </nav>
-</header>
-<main>{% block content %}{% endblock %}</main>
-<footer>Учебный проект по Django MVT</footer>
-</body>
-</html>
+{% load static %}<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Академия · Учебный портал{% endblock %}</title>
+<link rel="stylesheet" href="{% static 'style.css' %}"></head>
+<body><a class="skip" href="#content">К содержимому</a>
+<header class="topbar"><a class="brand" href="{% url 'catalog:index' %}"><span class="brand-mark">А</span> Академия<span class="brand-sub">учебный портал</span></a>
+<nav aria-label="Аккаунт">{% if user.is_authenticated %}
+<a href="{% url 'users:profile' user.pk %}">{{ user.username }}</a><a href="{% url 'password_change' %}">Сменить пароль</a>
+<form method="post" action="{% url 'logout' %}" class="inline">{% csrf_token %}<button class="link">Выйти</button></form>
+{% else %}<a href="{% url 'login' %}">Войти</a><a class="button small" href="{% url 'users:register' %}">Регистрация</a>{% endif %}</nav></header>
+{% if user.is_authenticated %}<div class="nav-wrap"><nav class="main-nav" aria-label="Разделы">
+<a href="{% url 'catalog:courses' %}">Каталог</a><a href="{% url 'catalog:authors' %}">Авторы</a>
+<a href="{% url 'schedule:teachers' %}">Преподаватели</a><a href="{% url 'schedule:courses' %}">Учебные курсы</a>
+<a href="{% url 'schedule:students' %}">Студенты</a><a href="{% url 'users:list' %}">Сообщество</a><a href="{% url 'catalog:info' %}">О портале</a>
+{% if perms.schedule.add_teacher %}<a href="{% url 'schedule:teacher_create' %}">+ Преподаватель</a>{% endif %}{% if perms.schedule.add_course %}<a href="{% url 'schedule:course_create' %}">+ Курс</a>{% endif %}</nav></div>{% endif %}
+<main id="content" class="container">{% for message in messages %}<div class="notice" role="status">{{ message }}</div>{% endfor %}
+{% block content %}{% endblock %}</main>
+<footer class="footer"><span>Академия</span><span>Знания · Практика · Общение</span></footer></body></html>

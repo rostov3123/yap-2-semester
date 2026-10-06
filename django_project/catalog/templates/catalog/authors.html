@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Авторы курсов</h1><section class="grid">{% for author in authors %}<article class="card"><span class="badge">Преподаватель</span><h2>{{ author.name }}</h2><p>{{ author.bio }}</p><a href="{% url 'catalog:author_detail' author.id %}">Курсы автора →</a></article>{% endfor %}</section>{% endblock %}

@@ -1,1 +1,0 @@
-{% extends 'base.html' %}{% block content %}<h2>Курсы schedule</h2><a href='{% url 'course_create' %}'>Добавить курс</a>{% for course in courses %}<article><h3>{{ course.title }}</h3><p>{{ course.teacher|default:'Без преподавателя' }}</p></article>{% empty %}<p>Курсов нет.</p>{% endfor %}{% endblock %}

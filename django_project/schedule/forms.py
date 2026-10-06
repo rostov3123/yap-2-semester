@@ -1,64 +1,89 @@
+"""Обычная форма ЛР3 и ModelForm с валидацией ЛР4."""
 from django import forms
-from .models import Course, Student, Teacher, TeacherInfo
+from django.db import transaction
+from .models import Teacher, TeacherInfo, Course, Student
+from .validators import validate_person_name
 
-class TeacherForm(forms.ModelForm):
-    office = forms.CharField(label="Кабинет", max_length=20, required=False, help_text="Например: 301")
-    consultation_time = forms.CharField(label="Консультации", required=False)
-
-    class Meta:
-        model = Teacher
-        fields = ["first_name", "last_name", "email", "phone", "academic_degree", "workload", "is_active"]
-        labels = {"first_name": "Имя", "last_name": "Фамилия"}
-        widgets = {"email": forms.EmailInput(attrs={"placeholder": "teacher@example.com"})}
-
+class TeacherForm(forms.Form):
+    """Сохранённый этап ЛР3: явные label, help_text, placeholder."""
+    full_name = forms.CharField(label='ФИО', max_length=150, validators=[validate_person_name], help_text='Имя и фамилия преподавателя.', widget=forms.TextInput(attrs={'placeholder':'Анна Волкова'}))
+    email = forms.EmailField(label='Email', help_text='Уникальный адрес для связи.', widget=forms.EmailInput(attrs={'placeholder':'teacher@example.org'}))
+    department = forms.CharField(label='Кафедра', required=False, max_length=120, help_text='Необязательное поле.', widget=forms.TextInput(attrs={'placeholder':'Программирование'}))
     def clean_email(self):
-        email = self.cleaned_data["email"].lower()
-        if not email.endswith((".ru", ".com", ".edu")):
-            raise forms.ValidationError("Нужен домен .ru, .com или .edu")
+        email = self.cleaned_data['email'].lower()
+        if Teacher.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('Преподаватель с таким email уже существует.')
         return email
 
-    def clean_workload(self):
-        workload = self.cleaned_data["workload"]
-        if workload % 2:
-            raise forms.ValidationError("Нагрузка должна быть четным числом")
-        return workload
+# Исходное имя класса из задания ЛР3; рабочие ModelForm находятся ниже.
+BasicTeacherForm = TeacherForm
 
-    def clean_phone(self):
-        phone = self.cleaned_data.get("phone", "")
-        return phone.replace(" ", "")
-
+class TeacherModelForm(forms.ModelForm):
+    biography = forms.CharField(label='Биография', required=False, widget=forms.Textarea(attrs={'rows':3}))
+    office = forms.CharField(label='Кабинет', required=False, max_length=30)
+    class Meta:
+        model = Teacher
+        fields = ['full_name','email','department','phone','experience','biography','office']
+        widgets = {'full_name': forms.TextInput(attrs={'placeholder':'Анна Волкова'}), 'phone': forms.TextInput(attrs={'placeholder':'+79991234567'})}
+        help_texts = {'experience':'От 0 до 60 лет.', 'department':'Укажите кафедру, если назначен кабинет.'}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            info = TeacherInfo.objects.filter(teacher=self.instance).first()
+            if info:
+                self.initial.update(biography=info.biography, office=info.office)
+    def clean_full_name(self):
+        return ' '.join(self.cleaned_data['full_name'].split())
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        if Teacher.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('Этот email уже занят.')
+        return email
     def clean(self):
         data = super().clean()
-        if data.get("is_active") and data.get("workload", 0) == 0:
-            raise forms.ValidationError("Активному преподавателю нужна нагрузка")
+        if data.get('office') and not data.get('department'):
+            self.add_error('department', 'Для кабинета необходимо указать кафедру.')
         return data
+    @transaction.atomic
+    def save(self, commit=True):
+        if not commit:
+            raise ValueError('Связанный профиль сохраняется только вместе с преподавателем.')
+        teacher = super().save()
+        TeacherInfo.objects.update_or_create(teacher=teacher, defaults={key:self.cleaned_data[key] for key in ['biography','office']})
+        return teacher
 
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ["title", "code", "teacher", "description", "hours", "starts_at"]
-        widgets = {"starts_at": forms.DateInput(attrs={"type": "date"})}
-
-    def clean_hours(self):
-        hours = self.cleaned_data["hours"]
-        if hours < 8:
-            raise forms.ValidationError("Курс должен быть не короче 8 часов")
-        return hours
-
+        fields = ['code','title','description','teacher','hours','start_date','end_date','capacity']
+        widgets = {'description':forms.Textarea(attrs={'rows':3}), 'start_date':forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d'), 'end_date':forms.DateInput(attrs={'type':'date'},format='%Y-%m-%d')}
+    def clean_title(self):
+        value = ' '.join(self.cleaned_data['title'].split())
+        if len(value) < 4:
+            raise forms.ValidationError('Название должно содержать минимум 4 символа.')
+        return value
     def clean(self):
         data = super().clean()
-        teacher = data.get("teacher")
-        if teacher and not teacher.is_active:
-            raise forms.ValidationError("Нельзя назначить неактивного преподавателя")
+        start, end = data.get('start_date'), data.get('end_date')
+        if bool(start) != bool(end):
+            raise forms.ValidationError('Укажите обе даты или оставьте обе пустыми.')
+        if start and end and end < start:
+            self.add_error('end_date','Окончание не может быть раньше начала.')
+        if self.instance.pk and data.get('capacity', 0) < self.instance.students.count():
+            self.add_error('capacity','Вместимость меньше числа записанных студентов.')
         return data
 
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
-        fields = ["first_name", "last_name", "email", "group", "courses"]
-        widgets = {"courses": forms.CheckboxSelectMultiple}
+        fields = ['full_name','email','group','enrollment_year']
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        if Student.objects.filter(email__iexact=email).exclude(pk=self.instance.pk).exists():
+            raise forms.ValidationError('Этот email уже занят.')
+        return email
+    def clean_group(self):
+        return self.cleaned_data['group'].strip().upper()
 
-class TeacherInfoForm(forms.ModelForm):
-    class Meta:
-        model = TeacherInfo
-        fields = ["office", "consultation_time", "biography", "experience_years"]
+class EnrollmentForm(forms.Form):
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), label='Курс')

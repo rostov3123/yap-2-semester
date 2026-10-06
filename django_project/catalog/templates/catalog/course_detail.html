@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<p class="eyebrow">{{ course.level }} · {{ course.hours }} ч</p><h1>{{ course.title }}</h1><section class="panel"><p>{{ course.description }}</p><p>Автор: <a href="{% url 'catalog:author_detail' author.id %}">{{ author.name }}</a></p><a class="button" href="{% url 'schedule:courses' %}">Учебные группы</a></section>{% endblock %}

@@ -1,20 +1,9 @@
-# Лабораторная 3
+# Лабораторная 3 — Шаблоны и обычные формы
 
-        Тема: шаблоны и формы в Django.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/templates/base.html; templates/schedule/teachers.html; schedule/forms.py; schedule/views.py. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Войти как editor, открыть /schedule/teachers/add-basic/. Отправить пустую форму, затем неправильный email, затем корректные данные. В основной форме /add/ уже показано продолжение из ЛР4.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

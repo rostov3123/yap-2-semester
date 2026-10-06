@@ -1,20 +1,9 @@
-# Практическая 1
+# Практическая 1 — Каталог курсов на Django
 
-        Тема: Django MVT, маршрутизация и шаблоны каталога курсов.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/catalog/; ../django_project/templates/base.html. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Войти как editor. Открыть /, /courses/, /courses/1/, /authors/, /authors/1/, /info/ и несуществующий адрес. Файлы catalog/data.py, urls.py, views.py показать в этом порядке.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

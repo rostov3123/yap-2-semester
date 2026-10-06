@@ -1,20 +1,9 @@
-# Лабораторная 6
+# Лабораторная 6 — Тестирование Django
 
-        Тема: тестирование Django-проекта через pytest.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: ../django_project/pytest.ini; ../django_project/tests/. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Из django_project: `python -m pytest -q`. Для всего комплекта из корня: `python run.py test`. Прочитать актуальный вывод в ПРОВЕРКА.txt.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

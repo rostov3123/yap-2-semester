@@ -1,20 +1,9 @@
-# Лабораторная 7
+# Лабораторная 7 — Логирование и загрузка аватара
 
-        Тема: логирование Django-проекта.
+Исходное задание: `задание.pdf`.
 
-        Что находится в папке:
+Код: basic_logging.py; ../django_project/course_site/logging_settings.py; ../django_project/users/signals.py; forms.py; views.py. Пути после первого `../django_project/` в перечислении относятся к этому проекту.
 
-        - `задание.pdf` - исходное задание;
-        - файлы решения или ссылка на общий Django-проект;
-        - `report.md` - краткий отчет;
-        - `memo.html` - памятка для защиты.
+Выполнить basic_logging.py. В сайте ошибиться при входе, зарегистрироваться с невалидными данными, добавить/удалить друга, загрузить текст вместо картинки. Проверить logs/application.log, logs/daily.log и тест caplog.
 
-        Запуск/проверка:
-
-        ```bash
-        cd ../django_project
-python3 -m pip install -r requirements.txt
-python3 manage.py makemigrations
-python3 manage.py migrate
-python3 manage.py runserver
-        ```
+Подробности и объяснение: `report.md`. Общий запуск описан в корневом README.md.

@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block content %}<section class="panel form-panel"><h1>Удалить запись?</h1><p>{{ object }}</p>
+<p>Запись и зависимые сведения будут удалены. Курсы удаляемого преподавателя сохранятся без назначенного преподавателя.</p>
+<form method="post">{% csrf_token %}<button type="submit">Подтвердить удаление</button> <a href="{% url 'catalog:index' %}">Отмена</a></form></section>{% endblock %}
